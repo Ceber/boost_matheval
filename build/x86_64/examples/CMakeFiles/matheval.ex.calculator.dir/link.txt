@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/matheval.ex.calculator.dir/calculator.cpp.o -o matheval.ex.calculator  ../src/x3/libmatheval.x3.a 

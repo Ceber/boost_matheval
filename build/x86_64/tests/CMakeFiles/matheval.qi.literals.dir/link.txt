@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/matheval.qi.literals.dir/literals.cpp.o -o matheval.qi.literals  ../src/qi/libmatheval.qi.a 

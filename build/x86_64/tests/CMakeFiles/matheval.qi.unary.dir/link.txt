@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/matheval.qi.unary.dir/unary.cpp.o -o matheval.qi.unary  ../src/qi/libmatheval.qi.a 

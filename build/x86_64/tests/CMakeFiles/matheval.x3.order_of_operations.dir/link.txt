@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/matheval.x3.order_of_operations.dir/order_of_operations.cpp.o -o matheval.x3.order_of_operations  ../src/x3/libmatheval.x3.a 

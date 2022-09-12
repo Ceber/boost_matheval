@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/matheval.x3.arithmetic.dir/arithmetic.cpp.o -o matheval.x3.arithmetic  ../src/x3/libmatheval.x3.a 

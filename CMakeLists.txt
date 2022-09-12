@@ -45,7 +45,7 @@ endif()
 # Subdirectories
 
 add_subdirectory(src/qi EXCLUDE_FROM_ALL)
-add_subdirectory(src/x3 EXCLUDE_FROM_ALL)
+add_subdirectory(src/x3)
 add_subdirectory(doc/doxygen EXCLUDE_FROM_ALL)
 add_subdirectory(examples EXCLUDE_FROM_ALL)
-add_subdirectory(tests EXCLUDE_FROM_ALL)
+add_subdirectory(tests)
