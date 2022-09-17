@@ -1,0 +1,14 @@
+*.so
+*.a
+*.data
+bin/*
+build/*
+.directory/*
+.settings/*
+.vscode/*
+/bin/
+/build/
+/doc/
+/.doc/
+*.bak
+CMakeUserPresets.json

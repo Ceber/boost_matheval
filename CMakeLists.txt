@@ -1,6 +1,26 @@
 cmake_minimum_required(VERSION 3.8.2 FATAL_ERROR)
 
-project(boost_matheval CXX)
+# Version
+set(boost_matheval_VERSION_MAJOR 0)
+set(boost_matheval_VERSION_MINOR 0)
+set(boost_matheval_VERSION_PATCH 1)
+set(boost_matheval_VERSION ${boost_matheval_VERSION_MAJOR}.${boost_matheval_VERSION_MINOR}.${boost_matheval_VERSION_PATCH})
+message(STATUS "####### boost_matheval_VERSION:            "   ${boost_matheval_VERSION})
+
+project(boost_matheval VERSION ${boost_matheval_VERSION} DESCRIPTION "C++ MathEval 2nd party lib - Boost Matheval is a libary built on top of Boost.Spirit, Boost.Fusion, and Boost.Phoenix to parse and evaluate mathematical expressions.")
+enable_language(CXX)
+
+# Module and Packages
+include(CMakePackageConfigHelpers)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(Config)
+
+
+# Options
+option(BUILD_DEMOS      "Build Demos."                           ON)
+option(CONAN_BUILD      "Building from conan."                   OFF)
+option(ASAN             "Enable Address Satinizer."              OFF)
+
 
 # Default build type is Debug
 if(NOT CMAKE_BUILD_TYPE)
@@ -11,7 +31,8 @@ endif()
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Build options
-option(WITH_COVERAGE "Generate code coverage report" OFF)
+option(BUILD_TESTS      "Build Tests."                           ON)
+option(WITH_COVERAGE    "Generate code coverage report."          OFF)
 if(WITH_COVERAGE)
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
@@ -42,10 +63,48 @@ if(WITH_CLANG_TIDY)
   endif()
 endif()
 
+
 # Subdirectories
 
 add_subdirectory(src/qi EXCLUDE_FROM_ALL)
 add_subdirectory(src/x3)
 add_subdirectory(doc/doxygen EXCLUDE_FROM_ALL)
 add_subdirectory(examples EXCLUDE_FROM_ALL)
-add_subdirectory(tests)
+
+if(BUILD_TESTS)
+  add_subdirectory(tests)
+endif()
+
+
+
+
+
+
+
+
+############################################################################
+# Settings + Directories + Export Install + CPack
+############################################################################
+# Install public include for developpers
+install(DIRECTORY "include/" # source directory
+        DESTINATION "${INSTALL_INCLUDE_DIR}" # target directory
+        FILES_MATCHING # install only matched files
+        PATTERN "*.h*" # select header files
+)
+
+include(Lib)
+
+
+############################################################################
+# Options Summary
+############################################################################
+message(STATUS "############## Commons OPTIONS SUMMARY ##############")
+message(STATUS "####### BUILD_TESTS:                        " 	${BUILD_TESTS})
+message(STATUS "####### BUILD_DEMOS:                        " 	${BUILD_DEMOS})
+message(STATUS "####### BUILD_DOC:                          "   ${BUILD_DOC})
+message(STATUS "####### CODE_COVERAGE:                      " 	${CODE_COVERAGE})
+message(STATUS "####### CONAN_BUILD:                        " 	${CONAN_BUILD})
+message(STATUS "####### ASAN:                               " 	${ASAN})
+
+
+

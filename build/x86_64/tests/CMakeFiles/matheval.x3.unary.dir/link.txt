@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/matheval.x3.unary.dir/unary.cpp.o -o matheval.x3.unary  ../src/x3/libmatheval.x3.a 

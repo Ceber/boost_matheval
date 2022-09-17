@@ -1,5 +1,5 @@
 add_custom_target(examples)
-add_dependencies(examples matheval.qi matheval.x3)
+add_dependencies(examples boost_matheval)
 
 function(EXAMPLE)
   # Parse arguments

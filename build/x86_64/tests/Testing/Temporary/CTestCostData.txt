@@ -1,9 +1,0 @@
-matheval.x3.literals 1 0.00275844
-matheval.x3.arithmetic 1 0.00321962
-matheval.x3.order_of_operations 1 0.00959834
-matheval.x3.unary 1 0.003844
-matheval.x3.functions 1 0.00769084
-matheval.x3.variables 1 0.00295039
-matheval.x3.errors 1 0.00200858
-matheval.x3.interface 1 0.00213021
----

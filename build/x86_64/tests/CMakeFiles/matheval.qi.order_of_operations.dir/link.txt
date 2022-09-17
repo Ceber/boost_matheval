@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/matheval.qi.order_of_operations.dir/order_of_operations.cpp.o -o matheval.qi.order_of_operations  ../src/qi/libmatheval.qi.a 

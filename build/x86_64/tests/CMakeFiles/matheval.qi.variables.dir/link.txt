@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/matheval.qi.variables.dir/variables.cpp.o -o matheval.qi.variables  ../src/qi/libmatheval.qi.a 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmatheval.x3.a CMakeFiles/matheval.x3.dir/evaluator.cpp.o CMakeFiles/matheval.x3.dir/matheval.cpp.o CMakeFiles/matheval.x3.dir/parser.cpp.o
-/usr/bin/ranlib libmatheval.x3.a

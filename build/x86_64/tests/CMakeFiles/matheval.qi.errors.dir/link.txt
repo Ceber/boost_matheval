@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/matheval.qi.errors.dir/errors.cpp.o -o matheval.qi.errors  ../src/qi/libmatheval.qi.a 

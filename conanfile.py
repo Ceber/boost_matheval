@@ -25,7 +25,7 @@ class MathEvalConan(ConanFile):
     }
 
     default_options = {
-        "shared": True,
+        "shared": False,
         "fPIC": True,
         "build_tests": False,
         "code_coverage": False,
@@ -33,18 +33,18 @@ class MathEvalConan(ConanFile):
         "build_tools": False,
     }
 
-    requires = ("Commons/0.0.1", "NetworkManager/0.0.1")
+    requires = ("boost/[>=1.65.1], readline")
 
     exports_sources = [
         "src/*",
         "include/*",
-        "CMake/*",
-        "models/*",
-        "Doxyfile",
+        "cmake/*",
+        "tests/*",
+        "examples/*",
+        "doc/*",
         "README.md",
-        "LICENSE",
-        "config.h.in",
-        "MathEvalConfig.cmake.in",
+        "LICENSE_1_0.txt",
+        "vcpkg.json",
         "CMakeLists.txt",
     ]
 
@@ -89,7 +89,7 @@ class MathEvalConan(ConanFile):
             self.options.build_tests == True or self.options.code_coverage == True
         )
         toolchain.variables["BUILD_DOC"] = self.options.build_doc == True
-        toolchain.variables["CODE_COVERAGE"] = self.options.code_coverage == True
+        toolchain.variables["WITH_COVERAGE"] = self.options.code_coverage == True
 
         # Override BASE_INSTALL_DIR. It is used by CPack.
         toolchain.variables["BASE_INSTALL_DIR"] = self.package_folder
@@ -102,12 +102,12 @@ class MathEvalConan(ConanFile):
         cmake.build()
 
         # These target are not supported when cross building to arm.
-        if not tools.cross_building(self):
-            if self.options.build_doc == "True":
-                cmake.build(target="doc")
-            if self.options.code_coverage == "True":
-                cmake.parallel = False
-                cmake.build(target="coverage")  # Run tests + coverage
+        # if not tools.cross_building(self):
+        #     if self.options.build_doc == "True":
+        #         cmake.build(target="doc")
+        #     if self.options.code_coverage == "True":
+        #         cmake.parallel = False
+        #         cmake.build(target="coverage")  # Run tests + coverage
 
     def package(self):
         cmake = CMake(self)
@@ -120,11 +120,9 @@ class MathEvalConan(ConanFile):
         self.cpp_info.libdirs = ["lib"]
         self.cpp_info.bindirs = ["bin"]
         self.cpp_info.requires = [
-            "Commons::CppFramework",
-            "Commons::CoreController",
-            "NetworkManager::NetworkManager",
+            "Boost::spirit",
+            "Boost::fusion",
         ]
         self.cpp_info.libs = [
-            "MathEval",
-            "MathEval_models",
+            "matheval",
         ]

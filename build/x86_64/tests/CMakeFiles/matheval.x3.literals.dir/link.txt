@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/matheval.x3.literals.dir/literals.cpp.o -o matheval.x3.literals  ../src/x3/libmatheval.x3.a 

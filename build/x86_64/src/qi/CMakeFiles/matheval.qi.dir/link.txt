@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmatheval.qi.a CMakeFiles/matheval.qi.dir/evaluator.cpp.o CMakeFiles/matheval.qi.dir/matheval.cpp.o CMakeFiles/matheval.qi.dir/parser.cpp.o
-/usr/bin/ranlib libmatheval.qi.a

@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/matheval.qi.functions.dir/functions.cpp.o -o matheval.qi.functions  ../src/qi/libmatheval.qi.a 
