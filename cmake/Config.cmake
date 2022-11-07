@@ -18,10 +18,14 @@ file(MAKE_DIRECTORY ${INTEGRATION_TEST_OUTPUT_DIR})
 ############################################################################
 # Install Settings
 ############################################################################
-set(BASE_INSTALL_DIR     /opt/2ndParty/${PROJECT_NAME}        CACHE PATH "Base Installation directory")
-set(INSTALL_LIB_DIR      ${BASE_INSTALL_DIR}/lib              CACHE PATH "Installation directory for libraries")
-set(INSTALL_BIN_DIR      ${BASE_INSTALL_DIR}/bin              CACHE PATH "Installation directory for executables")
-set(INSTALL_INCLUDE_DIR  ${BASE_INSTALL_DIR}/include          CACHE PATH "Installation directory for header files")
+if (CMAKE_CROSSCOMPILING)
+  set(BASE_INSTALL_DIR   /opt/${CMAKE_LIBRARY_ARCHITECTURE}/2ndParty/${PROJECT_NAME} CACHE PATH "Base Installation directory")
+else()
+  set(BASE_INSTALL_DIR   /opt/2ndParty/${PROJECT_NAME}                               CACHE PATH "Base Installation directory")
+endif()
+set(INSTALL_LIB_DIR      ${BASE_INSTALL_DIR}/lib                                     CACHE PATH "Installation directory for libraries")
+set(INSTALL_BIN_DIR      ${BASE_INSTALL_DIR}/bin                                     CACHE PATH "Installation directory for executables")
+set(INSTALL_INCLUDE_DIR  ${BASE_INSTALL_DIR}/include                                 CACHE PATH "Installation directory for header files")
 if(WIN32 AND NOT CYGWIN)
   set(DEF_INSTALL_CMAKE_DIR CMake)
 else()
@@ -29,14 +33,6 @@ else()
 endif()
 set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH "Installation directory for CMake files")
 
-############################################################################
-# Options
-############################################################################
-option(BUILD_TESTS          "Build Tests"                           ON)
-option(BUILD_TOOLS          "Build Tools"                           ON)
-option(BUILD_DOC            "Build documentation"                   ON)
-option(CODE_COVERAGE        "Enable code coverage testing support"  ON)
-option(DEBUG_MODE           "Enable 'debug mode' support."           OFF)
 
 ############################################################################
 # Code Format

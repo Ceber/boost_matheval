@@ -1,7 +1,7 @@
 # Config file for the boost_matheval package
 # It defines the following variables
 #  boost_matheval_INCLUDE_DIR  - include directory for boost_matheval
-#  boost_matheval_LIB_DIR 	   - lib directory for boost_matheval
+#  boost_matheval_LIB_DIR      - lib directory for boost_matheval
 #  boost_matheval_LIBRARIES    - libraries to link against
 #  boost_matheval_EXECUTABLE   - the executable
 

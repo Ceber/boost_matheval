@@ -23,7 +23,6 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}C
   NO_CHECK_REQUIRED_COMPONENTS_MACRO
 )
 
-
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}ConfigVersion.cmake
   VERSION "${${CMAKE_PROJECT_NAME}_VERSION}"
@@ -46,7 +45,6 @@ install(
   	EXPORT ${PROJECT_NAME}Targets
   	RUNTIME DESTINATION  ${INSTALL_BIN_DIR}             COMPONENT dev
   	LIBRARY DESTINATION  ${INSTALL_LIB_DIR}   		      COMPONENT dev
-  	ARCHIVE DESTINATION  ${INSTALL_LIB_DIR}   		      COMPONENT dev
     PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDE_DIR}    COMPONENT dev
 )
 # Install include for developpers
@@ -88,7 +86,7 @@ message(STATUS "####### CMAKE_LIBRARY_OUTPUT_DIRECTORY:     " 	${CMAKE_LIBRARY_O
 message(STATUS "####### CMAKE_RUNTIME_OUTPUT_DIRECTORY:     " 	${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 message(STATUS "####### INSTALL_INCLUDE_DIR:                " 	${INSTALL_INCLUDE_DIR})
 message(STATUS "####### INSTALL_LIB_DIR:                    " 	${INSTALL_LIB_DIR})
-message(STATUS "####### ${PROJECT_NAME}_LIBRARIES:           " 	${${PROJECT_NAME}_LIBRARIES})
+message(STATUS "####### ${PROJECT_NAME}_LIBRARIES:          " 	${${PROJECT_NAME}_LIBRARIES})
 message(STATUS "####### INSTALL_CMAKE_DIR:                  " 	${INSTALL_CMAKE_DIR})
 message(STATUS "####### UNIT_TEST_OUTPUT_DIR:               "	  ${UNIT_TEST_OUTPUT_DIR})
 message(STATUS "####### INTEGRATION_TEST_OUTPUT_DIR:        " 	${INTEGRATION_TEST_OUTPUT_DIR}) 

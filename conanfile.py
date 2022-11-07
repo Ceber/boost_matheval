@@ -5,8 +5,8 @@ from conan.tools.cmake import CMakeDeps, CMakeToolchain, CMake
 from conan.tools.layout import cmake_layout
 
 
-class MathEvalConan(ConanFile):
-    name = "MathEval"
+class Boost_MathEvalConan(ConanFile):
+    name = "boost_matheval"
     author = "<ERGENSCHAEFFTER, Cédric> <ceber@ergen.fr>"
     url = "https://home.ergen.fr/gitlab/cpp/libs/boost_matheval"
     description = (
@@ -25,7 +25,7 @@ class MathEvalConan(ConanFile):
     }
 
     default_options = {
-        "shared": False,
+        "shared": True,
         "fPIC": True,
         "build_tests": False,
         "code_coverage": False,
@@ -33,7 +33,7 @@ class MathEvalConan(ConanFile):
         "build_tools": False,
     }
 
-    requires = ("boost/[>=1.65.1], readline")
+    requires = ("boost/[>=1.65.1]", "readline/[>=8.0] ")
 
     exports_sources = [
         "src/*",
@@ -46,6 +46,7 @@ class MathEvalConan(ConanFile):
         "LICENSE_1_0.txt",
         "vcpkg.json",
         "CMakeLists.txt",
+        "boost_mathevalConfig.cmake.in",
     ]
 
     def set_version(self):
@@ -62,9 +63,34 @@ class MathEvalConan(ConanFile):
         )
 
         self.version = "{}.{}.{}".format(version_major, version_minor, version_patch)
+        
+        
+    def requirements(self):
+        # Boost options
+        self.options["boost"].shared = True
+        self.options["boost"].without_python = False
+        # self.options["boost"].python_version = 3.9
+        # self.options["boost"].python_executable = "python3.9"
+        self.options["boost"].without_chrono = False
+        self.options["boost"].without_type_erasure = False
+        self.options["boost"].without_fiber = True
+        self.options["boost"].without_wave = True
+        self.options["boost"].without_graph = True
+        self.options["boost"].without_graph_parallel = True
+        self.options["boost"].without_coroutine = True
+        self.options["boost"].without_log = True
+        self.options["boost"].without_contract = True
+        self.options["boost"].without_test = True
+        self.options["boost"].without_program_options = False
+        # If any issue to 'conan create' related to ZLIB:
+        # Copy/Paste and Rename zlib libraries as needed!
 
-    # TODO: Some files like conaninfo.txt, conan.lock
-    # should be generated inside the build folder to avoid polluting sources.
+        # Botan options
+        self.options["botan"].shared = True
+        # GTest settings
+        self.options["gtest"].shared = False
+        # Or add a new requirement!
+        
 
     # Defines the build directory among other things.
     def layout(self):
@@ -82,9 +108,6 @@ class MathEvalConan(ConanFile):
 
         toolchain = CMakeToolchain(self)
         toolchain.variables["CONAN_BUILD"] = True
-        toolchain.variables[
-            "BUILD_TOOLS"
-        ] = False  # Cross building ncurses to arm is (currently) not supported
         toolchain.variables["BUILD_TESTS"] = (
             self.options.build_tests == True or self.options.code_coverage == True
         )
@@ -118,11 +141,12 @@ class MathEvalConan(ConanFile):
         # These are default values and doesn't need to be adjusted
         self.cpp_info.includedirs = ["include"]
         self.cpp_info.libdirs = ["lib"]
+        self.cpp_info.builddirs = ["lib/CMake"]
         self.cpp_info.bindirs = ["bin"]
         self.cpp_info.requires = [
-            "Boost::spirit",
-            "Boost::fusion",
+            "boost::system",
+            "boost::math",
         ]
         self.cpp_info.libs = [
-            "matheval",
+            "boost_matheval",
         ]

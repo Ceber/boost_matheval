@@ -16,8 +16,14 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(Config)
 
 
+############################################################################
 # Options
+############################################################################
+option(BUILD_TOOLS      "Build Tools"                            ON)
 option(BUILD_DEMOS      "Build Demos."                           ON)
+option(BUILD_DOC        "Build documentation"                    ON)
+option(CODE_COVERAGE    "Enable code coverage testing support"   ON)
+option(DEBUG_MODE       "Enable 'debug mode' support."           OFF)
 option(CONAN_BUILD      "Building from conan."                   OFF)
 option(ASAN             "Enable Address Satinizer."              OFF)
 
@@ -31,7 +37,7 @@ endif()
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Build options
-option(BUILD_TESTS      "Build Tests."                           ON)
+option(BUILD_TESTS      "Build Tests."                            OFF)
 option(WITH_COVERAGE    "Generate code coverage report."          OFF)
 if(WITH_COVERAGE)
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -74,9 +80,6 @@ add_subdirectory(examples EXCLUDE_FROM_ALL)
 if(BUILD_TESTS)
   add_subdirectory(tests)
 endif()
-
-
-
 
 
 
