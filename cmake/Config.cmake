@@ -62,23 +62,6 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
-#Tests
-if (BUILD_TESTS)
-	enable_testing()
-	# GTest
-	find_package(GTest REQUIRED)
-endif()
-# Doc
-if (BUILD_DOC)
-	# Doxygen Documentation
-	find_package(Doxygen
-	             REQUIRED dia
-	             OPTIONAL_COMPONENTS dot)
-	             
-	add_custom_target(doc
-					  COMMAND cd ${CMAKE_SOURCE_DIR} && doxygen Doxyfile && cd ${CMAKE_BINARY_DIR})
-endif()
-
 ############################################################################
 # Compiler Settings and Flags
 ############################################################################
