@@ -1,0 +1,311 @@
+image: gcc
+
+
+variables:
+  HOME: /home/gitlab-runner/
+  PROJECT: sfc
+  GIT_SUBMODULE_STRATEGY: recursive
+
+#.default-only: &default-only
+#  only:
+#    - merge_requests
+
+stages:
+  - build
+  - coverage
+  - test
+  - packaging
+  - upload
+  
+
+linux_x86_64_build_release:
+  stage: build
+#  <<: *default-only
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Release
+  before_script:
+    - echo $(date --utc +%s) >> .start_time
+  script:
+    - cmake . -B ./build/$ARCH/$BUILD_TYPE -S ./ -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCODE_COVERAGE=OFF 
+    - cmake --build ./build/$ARCH/$BUILD_TYPE -j `nproc`
+  after_script:
+    - BUILD_START=$(<.start_time)
+    - export PATH=$PATH:~/.local/bin/  
+    - BUILD_END=$(date --utc +%s)
+    - BADGE_VALUE=$((${BUILD_END} - ${BUILD_START}))
+    - anybadge -l build_duration -v $BADGE_VALUE --suffix=' seconds' --file=build_duration.svg 1200=red 600=orange 180=yellow 120=green
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+pages:
+  stage: upload
+  tags:
+    - linux
+    - cpp
+  environment: production
+  script:
+    - rm -rf public/
+    - mkdir public
+    - mv build_duration.svg public/
+  artifacts:
+    when: always
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+
+linux_x86_64_build_debug:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Debug
+  script:
+    - cmake . -B ./build/$ARCH/$BUILD_TYPE -S ./ -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCODE_COVERAGE=ON -DBUILD_DOC=OFF
+    - cmake --build ./build/$ARCH/$BUILD_TYPE -j `nproc`
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+linux_arm_gnueabihf_build_release:
+  stage: build
+#  <<: *default-only
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: armhf
+    BUILD_TYPE: Release
+  script:
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@home.ergen.fr/gitlab/cpp/toolchains.git
+    - cmake . -B ./build/$ARCH/$BUILD_TYPE -S ./ -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCODE_COVERAGE=OFF -DCMAKE_TOOLCHAIN_FILE=toolchains/arm-linux-gnueabihf_toolchain.cmake -U BASE_INSTALL_DIR -D BASE_INSTALL_DIR=/opt/2ndParty/$PROJECT/$ARCH
+    - cmake --build ./build/$ARCH/$BUILD_TYPE -j `nproc`
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+      
+
+linux_x86_64_build_doc:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Release
+  script:
+    - cmake --build ./build/$ARCH/$BUILD_TYPE --target doc -j `nproc`
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+  artifacts:
+    name: "Doc"
+    paths:
+      - .doc/
+
+linux_x86_64_coverage:
+  stage: coverage
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  coverage: /^\s*lines\.+:\s*(\d+.\d+\%)/ 
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Debug
+  script:
+    - cmake --build ./build/$ARCH/$BUILD_TYPE --target coverage -j `nproc`
+  artifacts:
+    name: "$CI_JOB_NAME"
+    paths:
+      - ./build/$ARCH/$BUILD_TYPE/coverage/*
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+
+
+# run unit-tests using the binaries built before
+linux_x86_64_unit-tests:
+  stage: test
+#  <<: *default-only
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Release
+    GIT_STRATEGY: none
+  script:
+    - cd ./build/$ARCH/$BUILD_TYPE && ctest -R unit-tests --verbose
+
+# run integration-tests using the binaries built before
+linux_x86_64_integration-tests:
+  stage: test
+#  <<: *default-only
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Release
+    GIT_STRATEGY: none
+  script:
+    - cd ./build/$ARCH/$BUILD_TYPE && ctest -R integration-tests --verbose
+
+
+
+linux_x86_64_packaging_release:
+  stage: packaging
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Release
+    GIT_STRATEGY: none
+  script:
+    - cmake --build ./build/$ARCH/$BUILD_TYPE --target package -j `nproc`
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+
+linux_x86_64_conan_packaging_debug:
+  stage: packaging
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - export PATH=$PATH:~/.local/bin/
+  script:
+    - CONAN_LOGIN_USERNAME=gitlab CONAN_PASSWORD=AP9qyVT4Cq8yjVZALbYhk7EnmzL conan create . -pr:b=default -pr:h=Linux_Debug --build $PROJECT_LOWER_CASE -r ware
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+
+linux_arm_gnueabihf_packaging_release:
+  stage: packaging
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: armhf
+    BUILD_TYPE: Release
+    GIT_STRATEGY: none
+  script:
+    - mkdir -p /opt/2ndParty/$PROJECT/$ARCH || 1
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@home.ergen.fr/gitlab/cpp/toolchains.git
+    - cmake --build ./build/$ARCH/$BUILD_TYPE --target package -j `nproc`
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+conan_upload:      
+  stage: upload
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - export PATH=$PATH:~/.local/bin/    
+  script:
+    - CONAN_LOGIN_USERNAME=gitlab CONAN_PASSWORD=AP9qyVT4Cq8yjVZALbYhk7EnmzL conan upload $PROJECT --confirm --all --force -r ware
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+
+linux_x86_64_upload:
+  stage: upload
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: x86_64
+    BUILD_TYPE: Release
+    GIT_STRATEGY: none
+  before_script:
+    - echo $PWD
+    #- PACKAGE_VERSION=$(grep -m 1 -oP "VERSION\\s+\\K\\w+.\\w+.\\w+")
+    - PACKAGE_VERSION=0.0.1
+    - PACKAGE_NAME=$PROJECT-$ARCH-$PACKAGE_VERSION.sh
+    - PACKAGE_PATH=./build/$ARCH/$BUILD_TYPE/$PACKAGE_NAME
+  script:
+    - echo ${PACKAGE_PATH}
+    - echo $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/$CI_PROJECT_NAME/$ARCH-$PACKAGE_VERSION/$PACKAGE_NAME
+    - 'curl -L --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file $PACKAGE_PATH "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/$CI_PROJECT_NAME/$ARCH-$PACKAGE_VERSION/$PACKAGE_NAME"'
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+
+linux_arm_gnueabihf_upload:
+  stage: upload
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  tags:
+    - linux
+    - cpp
+  variables:
+    ARCH: armhf
+    BUILD_TYPE: Release
+    GIT_STRATEGY: none
+  before_script:
+    - echo $PWD
+    #- PACKAGE_VERSION=$(grep -m 1 -oP "VERSION\\s+\\K\\w+.\\w+.\\w+")
+    - PACKAGE_VERSION=0.0.1
+    - PACKAGE_NAME=$PROJECT-$ARCH-$PACKAGE_VERSION.sh
+    - PACKAGE_PATH=./build/$ARCH/$BUILD_TYPE/$PACKAGE_NAME
+  script:
+    - echo ${PACKAGE_PATH}
+    - echo $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/$CI_PROJECT_NAME/$ARCH-$PACKAGE_VERSION/$PACKAGE_NAME
+    - 'curl -L --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file $PACKAGE_PATH "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/$CI_PROJECT_NAME/$ARCH-$PACKAGE_VERSION/$PACKAGE_NAME"'
+  cache:
+    paths:
+      - ./build/*
+      - ./build_duration.svg
+
+
+
