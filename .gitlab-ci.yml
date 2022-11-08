@@ -94,7 +94,7 @@ linux_arm_gnueabihf_build_release:
     BUILD_TYPE: Release
   script:
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@home.ergen.fr/gitlab/cpp/toolchains.git
-    - cmake . -B ./build/$ARCH/$BUILD_TYPE -S ./ -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCODE_COVERAGE=OFF -DCMAKE_TOOLCHAIN_FILE=toolchains/arm-linux-gnueabihf_toolchain.cmake -U BASE_INSTALL_DIR -D BASE_INSTALL_DIR=/opt/2ndParty/$PROJECT/$ARCH
+    - cmake . -B ./build/$ARCH/$BUILD_TYPE -S ./ -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCODE_COVERAGE=OFF -DCMAKE_TOOLCHAIN_FILE=toolchains/arm-linux-gnueabihf_toolchain.cmake
     - cmake --build ./build/$ARCH/$BUILD_TYPE -j `nproc`
   cache:
     paths:
