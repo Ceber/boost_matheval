@@ -37,15 +37,6 @@ endif()
 # Add local package finders
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-if(CODE_COVERAGE)
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-    link_libraries(gcov)
-  else()
-    message(WARNING "Coverage information only supported on GCC")
-  endif()
-endif()
-
 if(CMAKE_VERSION VERSION_GREATER 3.5.2 AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   option(WITH_CLANG_TIDY "Run Clang-Tidy during compilation" OFF)
 endif()
@@ -76,6 +67,9 @@ add_subdirectory(doc/doxygen EXCLUDE_FROM_ALL)
 add_subdirectory(examples EXCLUDE_FROM_ALL)
 
 if(BUILD_TESTS)
+  enable_testing()
+  # GTest
+  find_package(GTest REQUIRED)
   add_subdirectory(tests)
 endif()
 

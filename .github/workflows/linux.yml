@@ -20,7 +20,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DWITH_COVERAGE=On -DCMAKE_BUILD_TYPE=Debug ..
+          cmake -DCODE_COVERAGE=On -DCMAKE_BUILD_TYPE=Debug ..
           cmake --build . --target examples --config Debug
           cmake --build . --target check --config Debug
 
