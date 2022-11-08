@@ -20,7 +20,7 @@ include(Config)
 # Options
 ############################################################################
 option(DEBUG_MODE       "Enable 'debug mode' support."           OFF)
-option(BUILD_TESTS      "Build Tests."                           OFF)
+option(BUILD_TESTS      "Build Tests."                           ON)
 option(BUILD_TOOLS      "Build Tools"                            ON)
 option(BUILD_DEMOS      "Build Demos."                           ON)
 option(BUILD_DOC        "Build documentation"                    ON)
