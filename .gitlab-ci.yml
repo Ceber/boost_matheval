@@ -25,7 +25,7 @@ linux_x86_64_build_release:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Release
   before_script:
     - echo $(date --utc +%s) >> .start_time
@@ -73,7 +73,7 @@ linux_x86_64_build_debug:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Debug
   script:
     - cmake . -B ./build/$ARCH/$BUILD_TYPE -S ./ -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCODE_COVERAGE=ON -DBUILD_DOC=OFF
@@ -90,7 +90,7 @@ linux_arm_gnueabihf_build_release:
     - linux
     - cpp
   variables:
-    ARCH: armhf
+    ARCH: arm-linux-gnueabihf
     BUILD_TYPE: Release
   script:
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@home.ergen.fr/gitlab/cpp/toolchains.git
@@ -110,7 +110,7 @@ linux_x86_64_build_doc:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Release
   script:
     - cmake --build ./build/$ARCH/$BUILD_TYPE --target doc -j `nproc`
@@ -132,7 +132,7 @@ linux_x86_64_coverage:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Debug
   script:
     - cmake --build ./build/$ARCH/$BUILD_TYPE --target coverage -j `nproc`
@@ -155,7 +155,7 @@ linux_x86_64_unit-tests:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Release
     GIT_STRATEGY: none
   script:
@@ -169,7 +169,7 @@ linux_x86_64_integration-tests:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Release
     GIT_STRATEGY: none
   script:
@@ -185,7 +185,7 @@ linux_x86_64_packaging_release:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Release
     GIT_STRATEGY: none
   script:
@@ -223,7 +223,7 @@ linux_arm_gnueabihf_packaging_release:
     - linux
     - cpp
   variables:
-    ARCH: armhf
+    ARCH: arm-linux-gnueabihf
     BUILD_TYPE: Release
     GIT_STRATEGY: none
   script:
@@ -262,7 +262,7 @@ linux_x86_64_upload:
     - linux
     - cpp
   variables:
-    ARCH: x86_64
+    ARCH: x86_64-linux-gnu
     BUILD_TYPE: Release
     GIT_STRATEGY: none
   before_script:
@@ -289,7 +289,7 @@ linux_arm_gnueabihf_upload:
     - linux
     - cpp
   variables:
-    ARCH: armhf
+    ARCH: arm-linux-gnueabihf
     BUILD_TYPE: Release
     GIT_STRATEGY: none
   before_script:
