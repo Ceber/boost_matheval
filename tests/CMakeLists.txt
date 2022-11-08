@@ -24,7 +24,9 @@ function(UNIT_TEST)
   target_link_libraries(matheval.x3.${UT_TARGET} PRIVATE matheval::x3)
   set_target_properties(matheval.x3.${UT_TARGET} PROPERTIES
       CXX_CLANG_TIDY ""
-      CXX_STANDARD 14)
+      CXX_STANDARD 14
+      RUNTIME_OUTPUT_DIRECTORY ${UNIT_TEST_OUTPUT_DIR}
+  )
   if(MSVC)
     set_property(SOURCE ${UT_SOURCE} PROPERTY COMPILE_FLAGS "/DNOMINMAX")
   endif()
