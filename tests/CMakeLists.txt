@@ -19,10 +19,11 @@ function(UNIT_TEST)
     set_property(SOURCE ${UT_SOURCE} PROPERTY COMPILE_FLAGS "/DNOMINMAX")
   endif()
   # Add target for X3
-  add_executable(matheval.x3.${UT_TARGET} ${UT_SOURCE})
-  target_include_directories(matheval.x3.${UT_TARGET} PRIVATE ${Boost_INCLUDE_DIRS})
-  target_link_libraries(matheval.x3.${UT_TARGET} PRIVATE matheval::x3)
-  set_target_properties(matheval.x3.${UT_TARGET} PROPERTIES
+  set(TEST_EXE matheval.x3.${UT_TARGET}_unit-tests)
+  add_executable(${TEST_EXE} ${UT_SOURCE})
+  target_include_directories(${TEST_EXE} PRIVATE ${Boost_INCLUDE_DIRS})
+  target_link_libraries(${TEST_EXE} PRIVATE matheval::x3)
+  set_target_properties(${TEST_EXE} PROPERTIES
       CXX_CLANG_TIDY ""
       CXX_STANDARD 14
       RUNTIME_OUTPUT_DIRECTORY ${UNIT_TEST_OUTPUT_DIR}
@@ -32,9 +33,9 @@ function(UNIT_TEST)
   endif()
   # Tests are executed in the root directory
   # add_test(NAME matheval.qi.${UT_TARGET} COMMAND matheval.qi.${UT_TARGET})
-  add_test(NAME matheval.x3.${UT_TARGET} COMMAND matheval.x3.${UT_TARGET})
-  # add_dependencies(check matheval.qi.${UT_TARGET} matheval.x3.${UT_TARGET})
-  add_dependencies(check matheval.x3.${UT_TARGET})
+  add_test(NAME ${TEST_EXE} COMMAND ${TEST_EXE})
+  # add_dependencies(check matheval.qi.${UT_TARGET} ${TEST_EXE})
+  add_dependencies(check ${TEST_EXE})
 endfunction(UNIT_TEST)
 
 # Add the tests
