@@ -3,7 +3,7 @@ image: gcc
 
 variables:
   HOME: /home/gitlab-runner/
-  PROJECT: sfc
+  PROJECT: boost_matheval
   GIT_SUBMODULE_STRATEGY: recursive
 
 #.default-only: &default-only
