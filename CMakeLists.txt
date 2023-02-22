@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.8.2 FATAL_ERROR)
 # Version
 set(boost_matheval_VERSION_MAJOR 0)
 set(boost_matheval_VERSION_MINOR 0)
-set(boost_matheval_VERSION_PATCH 1)
+set(boost_matheval_VERSION_PATCH 2)
 set(boost_matheval_VERSION ${boost_matheval_VERSION_MAJOR}.${boost_matheval_VERSION_MINOR}.${boost_matheval_VERSION_PATCH})
 message(STATUS "####### boost_matheval_VERSION:            "   ${boost_matheval_VERSION})
 

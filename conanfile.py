@@ -64,33 +64,6 @@ class Boost_MathEvalConan(ConanFile):
 
         self.version = "{}.{}.{}".format(version_major, version_minor, version_patch)
         
-        
-    def requirements(self):
-        # Boost options
-        self.options["boost"].shared = True
-        self.options["boost"].without_python = False
-        # self.options["boost"].python_version = 3.9
-        # self.options["boost"].python_executable = "python3.9"
-        self.options["boost"].without_chrono = False
-        self.options["boost"].without_type_erasure = False
-        self.options["boost"].without_fiber = True
-        self.options["boost"].without_wave = True
-        self.options["boost"].without_graph = True
-        self.options["boost"].without_graph_parallel = True
-        self.options["boost"].without_coroutine = True
-        self.options["boost"].without_log = True
-        self.options["boost"].without_contract = True
-        self.options["boost"].without_test = True
-        self.options["boost"].without_program_options = False
-        # If any issue to 'conan create' related to ZLIB:
-        # Copy/Paste and Rename zlib libraries as needed!
-
-        # Botan options
-        self.options["botan"].shared = True
-        # GTest settings
-        self.options["gtest"].shared = False
-        # Or add a new requirement!
-        
 
     # Defines the build directory among other things.
     def layout(self):
