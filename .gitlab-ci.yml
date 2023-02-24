@@ -212,7 +212,6 @@ linux_arm_gnueabihf_packaging_release:
     BUILD_TYPE: Release
     GIT_STRATEGY: none
   script:
-    - mkdir -p /opt/2ndParty/$PROJECT/$ARCH || 1
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@home.ergen.fr/gitlab/cpp/toolchains.git
     - cmake --build ./build/$ARCH/$BUILD_TYPE --target package -j `nproc`
   cache:
