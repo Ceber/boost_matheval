@@ -251,8 +251,7 @@ linux_x86_64_upload:
     GIT_STRATEGY: none
   before_script:
     - echo $PWD
-    #- PACKAGE_VERSION=$(grep -m 1 -oP "VERSION\\s+\\K\\w+.\\w+.\\w+")
-    - PACKAGE_VERSION=0.0.1
+    - PACKAGE_VERSION=`python version.py`
     - PACKAGE_NAME=$PROJECT-$ARCH-$PACKAGE_VERSION.sh
     - PACKAGE_PATH=./build/$ARCH/$BUILD_TYPE/$PACKAGE_NAME
   script:
@@ -278,8 +277,7 @@ linux_arm_gnueabihf_upload:
     GIT_STRATEGY: none
   before_script:
     - echo $PWD
-    #- PACKAGE_VERSION=$(grep -m 1 -oP "VERSION\\s+\\K\\w+.\\w+.\\w+")
-    - PACKAGE_VERSION=0.0.1
+    - PACKAGE_VERSION=`python version.py`
     - PACKAGE_NAME=$PROJECT-$ARCH-$PACKAGE_VERSION.sh
     - PACKAGE_PATH=./build/$ARCH/$BUILD_TYPE/$PACKAGE_NAME
   script:
