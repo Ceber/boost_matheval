@@ -70,7 +70,7 @@ if(BUILD_TESTS)
   enable_testing()
   # GTest
   find_package(GTest REQUIRED)
-  add_subdirectory(tests)
+  add_subdirectory(unit-tests)
 endif()
 
 

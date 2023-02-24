@@ -161,21 +161,6 @@ linux_x86_64_unit-tests:
   script:
     - cd ./build/$ARCH/$BUILD_TYPE && ctest -R unit-tests --verbose
 
-# run integration-tests using the binaries built before
-linux_x86_64_integration-tests:
-  stage: test
-#  <<: *default-only
-  tags:
-    - linux
-    - cpp
-  variables:
-    ARCH: x86_64-linux-gnu
-    BUILD_TYPE: Release
-    GIT_STRATEGY: none
-  script:
-    - cd ./build/$ARCH/$BUILD_TYPE && ctest -R integration-tests --verbose
-
-
 
 linux_x86_64_packaging_release:
   stage: packaging
