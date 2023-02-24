@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 # Version
 set(boost_matheval_VERSION_MAJOR 0)
