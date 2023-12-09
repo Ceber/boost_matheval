@@ -15,6 +15,7 @@ jobs:
             lcov \
             libboost-dev \
             libboost-test-dev \
+            libgtest-dev \
 
       - name: Build
         run: |
