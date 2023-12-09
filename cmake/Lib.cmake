@@ -45,6 +45,7 @@ install(
   	EXPORT ${PROJECT_NAME}Targets
   	RUNTIME DESTINATION  ${INSTALL_BIN_DIR}             COMPONENT dev
   	LIBRARY DESTINATION  ${INSTALL_LIB_DIR}   		      COMPONENT dev
+  	ARCHIVE  DESTINATION  ${INSTALL_LIB_DIR}   		      COMPONENT dev
     PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDE_DIR}    COMPONENT dev
 )
 # Install include for developpers
@@ -93,7 +94,7 @@ message(STATUS "####### CMAKE_LIBRARY_OUTPUT_DIRECTORY:     " 	${CMAKE_LIBRARY_O
 message(STATUS "####### CMAKE_RUNTIME_OUTPUT_DIRECTORY:     " 	${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 message(STATUS "####### INSTALL_INCLUDE_DIR:                " 	${INSTALL_INCLUDE_DIR})
 message(STATUS "####### INSTALL_LIB_DIR:                    " 	${INSTALL_LIB_DIR})
-message(STATUS "####### ${PROJECT_NAME}_LIBRARIES:          " 	${${PROJECT_NAME}_LIBRARIES})
+message(STATUS "####### ${PROJECT_NAME}_LIBRARIES:           " 	${${PROJECT_NAME}_LIBRARIES})
 message(STATUS "####### INSTALL_CMAKE_DIR:                  " 	${INSTALL_CMAKE_DIR})
 message(STATUS "####### UNIT_TEST_OUTPUT_DIR:               "	  ${UNIT_TEST_OUTPUT_DIR})
 message(STATUS "####### INTEGRATION_TEST_OUTPUT_DIR:        " 	${INTEGRATION_TEST_OUTPUT_DIR}) 

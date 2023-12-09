@@ -16,19 +16,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(Config)
 
 
-############################################################################
-# Options
-############################################################################
-option(DEBUG_MODE       "Enable 'debug mode' support."           OFF)
-option(BUILD_TESTS      "Build Tests."                           ON)
-option(BUILD_TOOLS      "Build Tools"                            ON)
-option(BUILD_DEMOS      "Build Demos."                           ON)
-option(BUILD_DOC        "Build documentation"                    ON)
-option(CODE_COVERAGE    "Enable code coverage testing support"   ON)
-option(CONAN_BUILD      "Building from conan."                   OFF)
-option(ASAN             "Enable Address Satinizer."              OFF)
-
-
 # Default build type is Debug
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the build type" FORCE)
@@ -93,7 +80,7 @@ include(Lib)
 ############################################################################
 # Options Summary
 ############################################################################
-message(STATUS "############## Commons OPTIONS SUMMARY ##############")
+message(STATUS "############## ${PROJECT_NAME} OPTIONS SUMMARY ##############")
 message(STATUS "####### BUILD_TESTS:                        " 	${BUILD_TESTS})
 message(STATUS "####### BUILD_DEMOS:                        " 	${BUILD_DEMOS})
 message(STATUS "####### BUILD_DOC:                          "   ${BUILD_DOC})

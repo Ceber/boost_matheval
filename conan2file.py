@@ -1,8 +1,12 @@
 import os
 import re
-from conans import ConanFile, tools
-from conan.tools.cmake import CMakeDeps, CMakeToolchain, CMake
-from conan.tools.layout import cmake_layout
+from conan import ConanFile
+from conan.tools.files import save, load
+from conan.tools.gnu import AutotoolsToolchain, AutotoolsDeps
+from conan.tools.microsoft import unix_path, VCVars, is_msvc
+from conan.errors import ConanInvalidConfiguration
+from conan.errors import ConanException
+from conan.tools.cmake import CMakeDeps, CMakeToolchain, CMake, cmake_layout
 
 
 class Boost_MathEvalConan(ConanFile):
@@ -49,7 +53,7 @@ class Boost_MathEvalConan(ConanFile):
     ]
 
     def set_version(self):
-        content = tools.load(os.path.join(self.recipe_folder, "CMakeLists.txt"))
+        content = load(self, os.path.join(self.recipe_folder, "CMakeLists.txt"))
 
         version_major = (
             re.search(r"[^\)]+VERSION_MAJOR (\d+)[^\)]*\)", content).group(1).strip()

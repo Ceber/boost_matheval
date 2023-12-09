@@ -79,6 +79,10 @@ make         # build the library and the examples
 make check   # build and run the tests
 ```
 
+
+#### Conan
+conan create . -pr:b=default -pr:h=Linux_Release --build boost_matheval --build missing -r conancenter -o boost:without_numpy=True
+
 ### Requirements and Limitations
 
 General:
