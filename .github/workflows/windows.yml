@@ -31,5 +31,5 @@ jobs:
           md build
           cd build
           cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DCMAKE_TOOLCHAIN_FILE="%VCPKG_INSTALLATION_ROOT%\scripts\buildsystems\vcpkg.cmake" ..
-          cmake --build ./examples --target examples --config Debug
-          cmake --build ./tests --target check --config Debug
+          cmake --build . --target examples --config Debug
+          cmake --build . --target check --config Debug
